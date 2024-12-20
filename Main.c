@@ -10,9 +10,9 @@
 
 
 int main() {
+    srand(time(NULL));
     Player *player = malloc(sizeof(Player));
     initialize_player(player, "Player");
-    srand(time(NULL));
 
     // Create rooms
     Room *room1 = malloc(sizeof(Room)), *room2 = malloc(sizeof(Room)), *room3 = malloc(sizeof(Room)), *room4 = malloc(sizeof(Room)), *room5 = malloc(sizeof(Room));
@@ -37,7 +37,6 @@ int main() {
     initialize_creature(c4, "Lost Soul", 170, 15);
     initialize_creature(c5, "Warwick", 200, 10);
 
-    // Add creatures to rooms
     add_creature(room1, c1);
     add_creature(room2, c2);
     add_creature(room3, c3);
@@ -46,13 +45,13 @@ int main() {
     
     // Create items
     Item *item1 , *item2, *item3, *item4, *item5, *item6, *item7, *item8;
-    item1 = create_item( "LIFE ELIXIR","This item fulls your health rate");
+    item1 = create_item( "LIFEELIXIR","This item fulls your health rate");
     item2 = create_item ( "CHARM", "Special charm!The beast's health is halved.");
     item3 = create_item ( "KNIFE", "Increases damage rate by 10 percent.");
-    item4 = create_item ( "BLOOD SPEAR", "It consumes some health with each use, but deals high damage.");
+    item4 = create_item ( "BLOODSPEAR", "It consumes some health with each use, but deals high damage.");
     item5 = create_item ( "SHIELD", "Reduces damage taken by 10 percent");
     item6 = create_item ( "LIFESTEALER", "It is used for steal creature's health.Increases your health by 20 point while decreases creature's health by same rate.");
-    item7 = create_item ( "STRENGTH GLOVES", "Increases damage rate by 20 percent.");
+    item7 = create_item ( "STRENGTHGLOVES", "Increases damage rate by 20 percent.");
     item8 = create_item ( "SHURIKEN", "Increases damage by 10 percent.");
 
     // Add items to rooms
@@ -71,8 +70,8 @@ int main() {
     // Connect rooms
     connect_rooms(room1, room2 , "down");
     connect_rooms(room2, room3, "right");
-    connect_rooms(room3, room4, "left");
-    connect_rooms(room4, room5, "up");
+    connect_rooms(room3, room4, "down");
+    connect_rooms(room4, room5, "left");
 
     // Display starting text
     FILE *file;  
@@ -122,7 +121,7 @@ int main() {
         parse_command(input, player, &current_room);
 
         // Check for win condition
-        if (current_room == end_room) {
+        if (current_room == end_room && (current_room->creature == NULL || current_room->creature->health <= 0)) {
             printf("\nCongratulations! You have reached the end room and won the game!\n");
             break;
         }
@@ -155,7 +154,7 @@ int main() {
         parse_command(input, player, &current_room);
 
         // Check for win condition
-        if (current_room == end_room) {
+        if (current_room == end_room && current_room->creature != NULL && current_room->creature->health <= 0) {
             printf("\nCongratulations! You have reached the end room and won the game!\n");
             break;
         }

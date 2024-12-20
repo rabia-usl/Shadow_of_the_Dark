@@ -1,0 +1,4 @@
+Player
+100
+60
+Garden Exit : there is a huge locked door, if you succeed you win the game!
